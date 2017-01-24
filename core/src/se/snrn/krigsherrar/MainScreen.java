@@ -23,6 +23,7 @@ public class MainScreen implements Screen{
     private TiledMap tiledMap;
     private TmxMapLoader tmxMapLoader;
     private TiledMapRenderer tiledMapRenderer;
+    private InputHandler inputHandler;
 
 
     public MainScreen(Batch batch){
@@ -35,6 +36,8 @@ public class MainScreen implements Screen{
         tiledMap = tmxMapLoader.load("map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         tiledMapRenderer.setView(camera);
+        inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(inputHandler);
     }
 
     @Override
@@ -42,6 +45,8 @@ public class MainScreen implements Screen{
         camera.position.set(0,0,0);
         camera.update();
         viewport.apply();
+        Gdx.input.setInputProcessor(inputHandler);
+
     }
 
     @Override
@@ -50,7 +55,6 @@ public class MainScreen implements Screen{
         camera.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        viewport.apply();
         tiledMapRenderer.setView(camera);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
